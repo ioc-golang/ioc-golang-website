@@ -3,9 +3,8 @@ title: "功能"
 date: 2017-01-05
 weight: 4
 description: >
-  IOC-Golang 框架提供这些能力
+  IOC-Golang 框架提供的能力
 ---
-
 
 - 依赖注入
 

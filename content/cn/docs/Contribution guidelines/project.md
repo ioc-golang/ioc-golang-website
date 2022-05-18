@@ -1,7 +1,7 @@
 ---
 title: "项目结构"
 date: 2017-01-05
-weight: 4
+weight: 1
 description: >
   IOC-Golang 框架项目结构
 ---
