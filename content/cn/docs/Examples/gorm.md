@@ -1,6 +1,6 @@
 ---
-title: "配置注入"
-linkTitle: "配置注入"
+title: "GORM 客户端注入"
+linkTitle: "GORM 客户端注入"
 date: 2017-01-05
 weight: 3
 ---

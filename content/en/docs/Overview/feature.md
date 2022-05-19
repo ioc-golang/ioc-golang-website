@@ -14,13 +14,13 @@ description: >
 
   Can take over object creation, parameter injection, factory methods. Customizable object parameter source.
 
-- Automatic code generation capability
-
-  We provide a code generation tool, and developers can annotate the structure through annotations, so as to easily generate structure registration code.
-
 - Code debugging ability
 
   Based on the idea of OP, it provides runtime monitoring and debugging capabilities for object methods taken over by the framework.
+
+- Automatic struct descriptors codes generation capability
+
+  We provide a code generation tool, and developers can annotate the structure through annotations, so as to easily generate structure registration code.
 
 - Scalability
 
