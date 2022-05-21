@@ -193,7 +193,7 @@ Response 2: (interface {}) <nil>
 
 
 
-## 结构注解
+## 结构注解与[SD](/cn/docs/concept/sd)代码生成
 
 ioc-go-cli 可以一键生成当前目录和子目录下的所有标记结构的描述符
 

@@ -6,7 +6,7 @@ weight: 1
 
 ### 概念
 
-依赖注入是指开发人员无需显式地创建对象，而是通过标签的方式声明字段，由框架负责将实例化对象写入该字段。
+依赖注入(Dependency Injection)是指开发人员无需显式地创建对象，而是通过[标签](/cn/docs/reference/tag_format)的方式声明字段，由框架负责将实例化对象写入该字段。
 
 ### 优点
 
@@ -18,7 +18,7 @@ weight: 1
 
 - 结构如何被提供
 
-  开发人员需要准备好需要被注入的结构，将它注册到框架。注册到框架的代码可以由开发人员手动编写，开发人员也可以通过使用[注解](../annotation)标记结构，使用 [ioc-go-cli](http://localhost:1313/cn/docs/reference/ioc-go-cli/#%E7%BB%93%E6%9E%84%E6%B3%A8%E8%A7%A3) 的代码生成能力自动生成注册代码，从而减少工作量。
+  开发人员需要准备好需要被注入的结构，将它注册到框架。注册到框架的代码可以由开发人员手动编写，开发人员也可以通过使用[注解](../annotation)标记结构，使用 [ioc-go-cli](http://localhost:1313/cn/docs/reference/ioc-go-cli/#结构注解) 的代码生成能力自动生成注册代码，从而减少工作量。
 
   一个带有[注解](../annotation)的结构
 
@@ -61,14 +61,22 @@ weight: 1
 
     
 
-  - 通过 API 获取，入参为 [结构描述 ID](/cn/docs/concept/sd/#%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0id) ，即可获取对象。
+  - 通过 API 可获取对象，入参为 [结构描述 ID](/cn/docs/concept/sd/#%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0id) 和构造参数(如需要)。
 
     ```go
     appInterface, err := singleton.GetImpl("App-App")
-    	if err != nil {
-    		panic(err)
-    	}
-    	app := appInterface.(*App)
+	if err != nil {
+      panic(err)
+	}
+	app := appInterface.(*App)
+    
+    redisInterface, err := normal.GetImpl("Redis-Impl", &Config{
+        Address: "localhost:6379"
+    })
+	if err != nil {
+      panic(err)
+	}
+	redisClient := redisInterface.(*Impl)
     ```
 
     

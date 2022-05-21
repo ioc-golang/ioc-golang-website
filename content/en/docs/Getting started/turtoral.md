@@ -6,6 +6,10 @@ weight: 2
 
 ###  Tutorial
 
+![demogif](https://raw.githubusercontent.com/ioc-golang/ioc-golang-website/main/resources/video/ioc-golang-demo.gif)
+
+<div style="text-align: center;">dependency injection and debug show</div>
+
 We will develop a project with the following topology, in this example, we can demonstrate code generation, interface injection, object pointer injection, and API access to objects capabilities.
 
 ![ioc-golang-quickstart-structure](https://raw.githubusercontent.com/ioc-golang/ioc-golang-website/main/resources/img/ioc-golang-quickstart-structure-en.png)

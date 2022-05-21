@@ -18,7 +18,7 @@ weight: 1
 
 - 结构如何被提供
 
-  开发人员需要准备好需要被注入的结构，将它注册到框架。注册到框架的代码可以由开发人员手动编写，开发人员也可以通过使用[注解](../annotation)标记结构，使用 [ioc-go-cli](http://localhost:1313/cn/docs/reference/ioc-go-cli/#%E7%BB%93%E6%9E%84%E6%B3%A8%E8%A7%A3) 的代码生成能力自动生成注册代码，从而减少工作量。
+  开发人员需要准备好需要被注入的结构，将它注册到框架。注册到框架的代码可以由开发人员手动编写，开发人员也可以通过使用[注解](../annotation)标记结构，使用 [ioc-go-cli](http://localhost:1313/cn/docs/reference/ioc-go-cli/#结构注解与sdcndocsconceptsd代码生成) 的代码生成能力自动生成注册代码，从而减少工作量。
 
   一个带有[注解](../annotation)的结构
 
