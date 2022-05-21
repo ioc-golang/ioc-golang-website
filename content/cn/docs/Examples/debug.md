@@ -11,18 +11,11 @@ weight: 6
 
 调试能力对于程序性能有损耗，请您不要在追求性能的场景下开启调试能力。
 
-ioc_golang.yaml:
-
-```yaml
-debug:
-  enable: true # debug 开关，默认为 false
-```
-
-debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结构方法都封装了一组拦截器。基于这些拦截器，可以实现具有很好扩展能力的调试功能。
+debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结构方法都封装了一组拦截器。基于这些拦截器，可以实现具有扩展性的调试功能。
 
 调试能力包括：
 
-- 基于 ioc-debug 协议，暴露调试端口
+- 基于 [ioc-debug](/cn/docs/reference/ioc_debug_protocol) 协议，暴露调试端口
 - 查看所有接口、实现、方法列表
 - 监听、修改任意方法的入参和返回值
 - 性能瓶颈分析【开发中】
@@ -49,7 +42,7 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
 2. 新开一个终端，启动客户端。
 
-   **注意 GOARCH 环境变量和 -gcflags 编译参数, amd机器无需指定 GOARCH 环境变量。**
+   **注意 GOARCH 环境变量和 '-gcflags="-N -l" -tags iocdebug' 编译参数, amd机器无需指定 GOARCH 环境变量。**
 
    正确在 ioc_golang.yaml 中开启debug模式后，会打印
 
@@ -57,7 +50,7 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
    ```bash
    % cd example/debug/cmd
-   % GOARCH=amd64 go run -gcflags="-N -l" .
+   % GOARCH=amd64 go run -gcflags="-N -l" -tags iocdebug  .
      ___    ___     ____            ____           _                         
     |_ _|  / _ \   / ___|          / ___|   ___   | |   __ _   _ __     __ _ 
      | |  | | | | | |      _____  | |  _   / _ \  | |  / _` | | '_ \   / _` |
@@ -167,4 +160,4 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
 通过 Debug 能力，开发人员可以在测试环境内动态地监控流量，帮助排查问题。
 
-也可以基于 ioc-golang 提供的拦截器层，注册任何自己期望的流量拦截器，扩展调试、可观测、运维能力。
+也可以基于 ioc-golang 提供的拦截器层，注册任何自己期望的[调试拦截器](cn/docs/developer/develop_debug_interceptor/)，扩展调试、可观测、运维能力。

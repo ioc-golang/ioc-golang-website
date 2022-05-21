@@ -9,11 +9,11 @@ ioc-go-cli 是一款命令行工具，提供了以下能力：
 
 - 代码调试
 
-  开发者可以配置启动 ioc-go 内核提供的调试能力，ioc-go-cli 作为调试客户端。
+  开发者启动 ioc-golang 框架提供的[调试](/cn/docs/examples/debug)能力，ioc-go-cli 作为调试客户端。
 
 - 结构描述注册信息生成
 
-  开发者可以为需要依赖注入的结构体增加注解，ioc-go-cli 会识别这些注解，并产生结构描述符，注册在 ioc-go 框架内。
+  开发者可以为需要依赖注入的结构体增加[注解](/cn/docs/concept/annotation)，ioc-go-cli 会识别这些[注解](/cn/docs/concept/annotation)，自动生成[SD(结构描述符)](/cn/docs/concept/sd)代码，注册至框架。
 
 ## 安装
 
@@ -23,174 +23,17 @@ go install github.com/alibaba/ioc-golang/ioc-go-cli@latest
 
 ## 代码调试能力
 
-ioc-golang 框架拥有首创的基于 AOP 思路的 Go 运行时程序调试能力。
+ioc-golang 框架拥有首创的基于 AOP 思路的 Go 运行时程序调试能力。基于 [ioc debug 协议](/cn/docs/reference/ioc_debug_protocol)
 
-使用前提：非生产环境，amd64 架构机器。arm/M1 芯片需要增加 GOARCH=amd64 兼容。
+代码调试示例可参考 [调试能力示例](/cn/docs/examples/debug) 或 [快速开始](/cn/docs/getting-started/tutorial)
 
-### 开启代码调试能力
-
-我们以的 demo 为基础，开启代码调试能力，并使用 ioc-go-cli 进行调试。
-
-修改 main 函数 Run 方法调用方式为隔 5s 调用一次
-
-```go
-func main(){
-	// 框架启动
-	if err := ioc.Load(); err != nil{
-		panic(err)
-	}
-
-	// App-App 即结构ID： '$(接口名)-$(方法名)'， 对于结构指针，接口名默认为方法名
-	// 可通过这一 ID 获取实例
-	appInterface, err := singleton.GetImpl("App-App")
-	if err != nil{
-		panic(err)
-	}
-	app := appInterface.(*App)
-	for{
-		time.Sleep(time.Second*5) // 5s 调用一次
-		app.Run()
-	}
-}
-```
-
-指定配置文件环境变量
-
-```bash
-export IOC_GOLANG_CONFIG_PATH=./ioc_golang.yaml
-```
-
-ioc_golang.yaml:
-
-```yaml
-debug:
-  enable: true # 开启调试模式
-```
-
-```bash
-% tree .
-.
-├── ioc_golang.yaml
-├── go.mod
-├── go.sum
-├── main.go
-└── zz_generated.ioc.go
-```
-
-启动程序：非amd64 机器需要指定架构，GOARCH=amd64。-gcflags="-N -l" 关闭编译器优化内联。
-
-```bash
- %  GOARCH=amd64 go run -gcflags "-N -l" .
-  ___    ___     ____            ____           _                         
- |_ _|  / _ \   / ___|          / ___|   ___   | |   __ _   _ __     __ _ 
-  | |  | | | | | |      _____  | |  _   / _ \  | |  / _` | | '_ \   / _` |
-  | |  | |_| | | |___  |_____| | |_| | | (_) | | | | (_| | | | | | | (_| |
- |___|  \___/   \____|          \____|  \___/  |_|  \__,_| |_| |_|  \__, |
-                                                                    |___/ 
-Welcome to use ioc-golang!
-[Boot] Start to load ioc-golan config
-[Config] Environment IOC_GOLANG_CONFIG_PATH is set to ./ioc_golang.yaml
-[Config] Load config file from ./ioc-golang.yaml
-[Boot] Start to load debug
-[Debug] Debug port is set to default :1999
-[Boot] Start to load autowire
-[Autowire Type] Found registered autowire type singleton
-[Autowire Struct Descriptor] Found type singleton registered SD App-App
-[Autowire Struct Descriptor] Found type singleton registered SD Service-ServiceImpl1
-[Autowire Struct Descriptor] Found type singleton registered SD Service-ServiceImpl2
-[Autowire Struct Descriptor] Found type singleton registered SD ServiceStruct-ServiceStruct
-[Debug] Debug server listening at :1999
-This is ServiceImpl1, hello world
-This is ServiceImpl2, hello world
-This is ServiceStruct, hello world
-```
-
-可看到 debug 端口监听1999
-
-新启动一个终端，查看所有接口实现和方法：
-
-```bash
-$ ioc-go-cli list
-App
-App
-[Run]
-
-Service
-ServiceImpl1
-[Hello]
-
-Service
-ServiceImpl2
-[Hello]
-
-ServiceStruct
-ServiceStruct
-[Hello]
-```
-
-监听一个实现类的方法：
-
-```bash
-% ioc-go-cli watch Service ServiceImpl1 Hello
-
-========== On Call ==========
-Service.(ServiceImpl1).Hello()
-```
-
-对于有入参和返回值的参数，可以监听到具体参数类型和值。一个监听 grpc 客户端的例子如下：
-
-```bash
-========== On Call ==========
-HelloServiceClient.(HelloServiceClient).SayHello()
-Param 1: (*context.emptyCtx)(0xc0000a0000)(context.Background)
-
-Param 2: (*api.HelloRequest)(0xc00050c640)(name:"laurence")
-
-Param 3: ([]grpc.CallOption) (len=2 cap=2) {
- (grpc.MaxRecvMsgSizeCallOption) {
-  MaxRecvMsgSize: (int) 1024
- },
- (grpc.MaxRecvMsgSizeCallOption) {
-  MaxRecvMsgSize: (int) 1024
- }
-}
-
-
-========== On Response ==========
-HelloServiceClient.(HelloServiceClient).SayHello()
-Response 1: (*api.HelloResponse)(0xc00050c700)(reply:"Hello laurence")
-
-Response 2: (interface {}) <nil>
-
-
-========== On Call ==========
-HelloServiceClient.(HelloServiceClient).SayHello()
-Param 1: (*context.emptyCtx)(0xc0000a0000)(context.Background)
-
-Param 2: (*api.HelloRequest)(0xc00050c8c0)(name:"laurence_service1_impl1")
-
-Param 3: ([]grpc.CallOption) <nil>
-
-
-========== On Response ==========
-HelloServiceClient.(HelloServiceClient).SayHello()
-Response 1: (*api.HelloResponse)(0xc00050c980)(reply:"Hello laurence_service1_impl1")
-
-Response 2: (interface {}) <nil>
-
-
-```
-
-
-
-基于该思路，我们可以扩展更丰富的调试能力，例如：
+基于该思路，我们可以扩展出更丰富的 cli 端调试能力，例如：
 
 - 流量过滤、监控
 - 参数编辑
 - 故障注入
 - 耗时瓶颈分析
 - ...
-
 
 
 ## 结构注解与[SD](/cn/docs/concept/sd)代码生成

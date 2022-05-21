@@ -22,7 +22,7 @@ description: >
 
   我们提供了代码生成工具，开发者可以通过注解的方式标注结构，从而便捷地生成结构注册代码。
 
-- [可扩展能力](/cn/docs/contribution-guidelines/)
+- [可扩展能力](/cn/docs/developer/)
 
   支持被注入结构的扩展、自动装载模型的扩展、调试 AOP 层的扩展。
 

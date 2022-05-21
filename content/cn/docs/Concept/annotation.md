@@ -26,5 +26,5 @@ type App struct {
 
 ### ioc-go-cli 工具支持的注解
 
-详情参阅 [ioc-go-cli #结构注解](/cn/docs/reference/ioc-go-cli#结构注解)
+详情参阅 [ioc-go-cli #结构注解](/cn/docs/reference/ioc-go-cli#结构注解与sdcndocsconceptsd代码生成)
 
