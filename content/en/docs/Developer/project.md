@@ -37,6 +37,6 @@ description: >
 
 - **example:** example repository
 
-- **ioc-go-cli:** code generation/program debugging tool
+- **iocli:** code generation/program debugging tool
 
   Provides the ability to automatically generate annotation-based structural description information

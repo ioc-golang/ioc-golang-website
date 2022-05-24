@@ -1,5 +1,24 @@
 # Docsy Example
 
+## HOW TO RUN
+
+```bash
+hugo server --cacheDir $(pwd)/cache
+```
+
+## HOW TO BUILD
+
+```bash
+hugo --cacheDir $(pwd)/cache
+```
+
+## HOW TO PUBLISH
+
+```bash
+cp -r public/* ../ioc-golang.github.io
+# git push ioc-golang.github.io
+```
+
 [Docsy][] is a [Hugo theme module][] for technical documentation sites, providing easy
 site navigation, structure, and more. This **Docsy Example Project** uses the Docsy
 theme component as a hugo module and provides a skeleton documentation structure for you to use.

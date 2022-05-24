@@ -12,8 +12,8 @@ weight: 1
 
 将 $GOPATH/bin 加入环境变量
 
-### 安装 ioc-go-cli 代码生成工具至 $GOPATH/bin
+### 安装 iocli 代码生成工具至 $GOPATH/bin
 
 ```shell
-go install github.com/alibaba/ioc-golang/ioc-go-cli@latest
+go install github.com/alibaba/ioc-golang/iocli@latest
 ```

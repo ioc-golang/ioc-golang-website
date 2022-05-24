@@ -12,8 +12,8 @@ Go version >= 1.17 is recommended
 
 Add $GOPATH/bin to the environment variable
 
-### Install the ioc-go-cli code generation tool to $GOPATH/bin
+### Install the iocli code generation tool to $GOPATH/bin
 
 ```shell
-go install github.com/alibaba/ioc-golang/ioc-go-cli@latest
+go install github.com/alibaba/ioc-golang/iocli@latest
 ````

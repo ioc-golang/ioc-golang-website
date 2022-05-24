@@ -22,9 +22,9 @@ type App struct {
 
 ### 注解与代码生成
 
-注解与代码生成能力，是为了让开发者无需关心[SD(结构描述符)](/cn/docs/concept/sd)的组装和注册。开发者只需定义好结构，正确标注注解，即可使用 ioc-go-cli 工具自动生成当前目录和子目录下的 SD 。
+注解与代码生成能力，是为了让开发者无需关心[SD(结构描述符)](/cn/docs/concept/sd)的组装和注册。开发者只需定义好结构，正确标注注解，即可使用 iocli 工具自动生成当前目录和子目录下的 SD 。
 
-### ioc-go-cli 工具支持的注解
+### iocli 工具支持的注解
 
-详情参阅 [ioc-go-cli #结构注解](/cn/docs/reference/ioc-go-cli#结构注解与sdcndocsconceptsd代码生成)
+详情参阅 [iocli #结构注解](/cn/docs/reference/iocli#结构注解与sdcndocsconceptsd代码生成)
 

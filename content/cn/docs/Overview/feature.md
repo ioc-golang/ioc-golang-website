@@ -18,7 +18,7 @@ description: >
 
   基于 AOP 的思路，为由框架接管的对象方法提供运行时监控、调试能力。
 
-- [结构注册代码生成能力](/cn/docs/reference/ioc-go-cli/#结构注解与sdcndocsconceptsd代码生成)
+- [结构注册代码生成能力](/cn/docs/reference/iocli/#结构注解与sdcndocsconceptsd代码生成)
 
   我们提供了代码生成工具，开发者可以通过注解的方式标注结构，从而便捷地生成结构注册代码。
 
