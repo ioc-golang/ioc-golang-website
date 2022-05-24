@@ -12,7 +12,7 @@ weight: 2
 
 We will develop a project with the following topology, in this example, we can demonstrate code generation, interface injection, object pointer injection, and API access to objects capabilities.
 
-![ioc-golang-quickstart-structure](https://raw.githubusercontent.com/ioc-golang/ioc-golang-website/main/resources/img/ioc-golang-quickstart-structure-en.png)
+![ioc-golang-quickstart-structure](https://raw.githubusercontent.com/ioc-golang/ioc-golang-website/main/resources/img/ioc-golang-quickstart-structure.png)
 
 
 All the code the user needs to write: main.go
@@ -209,7 +209,7 @@ Markers implement the interface Service and can be injected into objects of type
 
 ###  More
 
-More code generation annotations can be viewed at [ioc-golang-cli](https://github.com/alibaba/IOC-Golang/tree/master/iocli).
+More code generation annotations can be viewed at [iocli](https://github.com/alibaba/IOC-Golang/tree/master/iocli).
 
 You can go to [ioc-golang-example](https://github.com/alibaba/IOC-Golang/tree/master/example) for more examples and advanced usage.
 
