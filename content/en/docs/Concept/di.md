@@ -6,7 +6,7 @@ weight: 1
 
 ### 概念
 
-依赖注入是指开发人员无需显式地创建对象，而是通过标签的方式声明字段，由框架负责将实例化对象写入该字段。
+依赖注入(Dependency Injection)是指开发人员无需显式地创建对象，而是通过[标签](/cn/docs/reference/tag_format)的方式声明字段，由框架负责将实例化对象写入该字段。
 
 ### 优点
 
@@ -55,20 +55,28 @@ weight: 1
     // +ioc:autowire:type=singleton
     
     type App struct {
-    	MySubService Service `singleton:"ServiceImpl1"` 
+    	MySubService Service `singleton:"main.ServiceImpl1"` 
     }
     ```
 
     
 
-  - 通过 API 获取，入参为 [结构描述 ID](/cn/docs/concept/sd/#%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0id) ，即可获取对象。
+  - 通过 API 可获取对象，入参为 [结构描述 ID](/cn/docs/concept/sd/#%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0id) 和构造参数(如需要)。
 
     ```go
-    appInterface, err := singleton.GetImpl("App-App")
-    	if err != nil {
-    		panic(err)
-    	}
-    	app := appInterface.(*App)
+    appInterface, err := singleton.GetImpl("main.App")
+	if err != nil {
+      panic(err)
+	}
+	app := appInterface.(*App)
+    
+    redisInterface, err := normal.GetImpl("github.com/alibaba/ioc-golang/extension/normal/redis.Impl", &Config{
+        Address: "localhost:6379"
+    })
+	if err != nil {
+      panic(err)
+	}
+	redisClient := redisInterface.(*Impl)
     ```
 
     

@@ -55,7 +55,7 @@ weight: 1
     // +ioc:autowire:type=singleton
     
     type App struct {
-    	MySubService Service `singleton:"ServiceImpl1"` 
+    	MySubService Service `singleton:"main.ServiceImpl1"` 
     }
     ```
 
@@ -64,13 +64,13 @@ weight: 1
   - 通过 API 可获取对象，入参为 [结构描述 ID](/cn/docs/concept/sd/#%E7%BB%93%E6%9E%84%E6%8F%8F%E8%BF%B0id) 和构造参数(如需要)。
 
     ```go
-    appInterface, err := singleton.GetImpl("App-App")
+    appInterface, err := singleton.GetImpl("main.App")
 	if err != nil {
       panic(err)
 	}
 	app := appInterface.(*App)
     
-    redisInterface, err := normal.GetImpl("Redis-Impl", &Config{
+    redisInterface, err := normal.GetImpl("github.com/alibaba/ioc-golang/extension/normal/redis.Impl", &Config{
         Address: "localhost:6379"
     })
 	if err != nil {

@@ -12,11 +12,10 @@ weight: 3
 ```
 autowire:
   $(自动装载模型名):
-    $(接口名):
-      $(实现结构名):
-        $(多例模式下的对象名):
-          param:
+    $(SDID):
+      $(多例模式下的对象名):
         param:
+      param:
 ```
 
 
@@ -26,8 +25,7 @@ autowire:
 ```yaml
 autowire:
   normal:
-    Redis:
-      Impl:
+    github.com/alibaba/ioc-golang/extension/normal/redis.Impl:
         db1-redis:
           param:
             address: localhost:6379

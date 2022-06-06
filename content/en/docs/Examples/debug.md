@@ -11,18 +11,11 @@ weight: 6
 
 调试能力对于程序性能有损耗，请您不要在追求性能的场景下开启调试能力。
 
-ioc_golang.yaml:
-
-```yaml
-debug:
-  enable: true # debug 开关，默认为 false
-```
-
-debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结构方法都封装了一组拦截器。基于这些拦截器，可以实现具有很好扩展能力的调试功能。
+debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结构方法都封装了一组拦截器。基于这些拦截器，可以实现具有扩展性的调试功能。
 
 调试能力包括：
 
-- 基于 ioc-debug 协议，暴露调试端口
+- 基于 [ioc-debug](/cn/docs/reference/ioc_debug_protocol) 协议，暴露调试端口
 - 查看所有接口、实现、方法列表
 - 监听、修改任意方法的入参和返回值
 - 性能瓶颈分析【开发中】
@@ -49,7 +42,7 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
 2. 新开一个终端，启动客户端。
 
-   **注意 GOARCH 环境变量和 -gcflags 编译参数, amd机器无需指定 GOARCH 环境变量。**
+   **注意 GOARCH 环境变量和 '-gcflags="-N -l" -tags iocdebug' 编译参数, amd机器无需指定 GOARCH 环境变量。**
 
    正确在 ioc_golang.yaml 中开启debug模式后，会打印
 
@@ -57,7 +50,7 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
    ```bash
    % cd example/debug/cmd
-   % GOARCH=amd64 go run -gcflags="-N -l" .
+   % GOARCH=amd64 go run -gcflags="-N -l" -tags iocdebug  .
      ___    ___     ____            ____           _                         
     |_ _|  / _ \   / ___|          / ___|   ___   | |   __ _   _ __     __ _ 
      | |  | | | | | |      _____  | |  _   / _ \  | |  / _` | | '_ \   / _` |
@@ -66,18 +59,19 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
                                                                        |___/ 
    Welcome to use ioc-golang!
    [Boot] Start to load ioc-golang config
-   [Config] Load config file from ../conf/ioc_golang.yaml
+   [Config] Load default config file from ../conf/ioc_golang.yaml
+   [Config] merge config map, depth: [0]
    [Boot] Start to load debug
    [Debug] Debug port is set to default :1999
    [Boot] Start to load autowire
    [Autowire Type] Found registered autowire type singleton
-   [Autowire Struct Descriptor] Found type singleton registered SD Service1-Impl1
-   [Autowire Struct Descriptor] Found type singleton registered SD Service2-Impl1
-   [Autowire Struct Descriptor] Found type singleton registered SD Service2-Impl2
-   [Autowire Struct Descriptor] Found type singleton registered SD Struct1-Struct1
-   [Autowire Struct Descriptor] Found type singleton registered SD App-App
+   [Autowire Struct Descriptor] Found type singleton registered SD github.com/alibaba/ioc-golang/example/debug/cmd/service2.Impl2
+   [Autowire Struct Descriptor] Found type singleton registered SD github.com/alibaba/ioc-golang/example/debug/cmd/struct1.Struct1
+   [Autowire Struct Descriptor] Found type singleton registered SD main.App
+   [Autowire Struct Descriptor] Found type singleton registered SD github.com/alibaba/ioc-golang/example/debug/cmd/service1.Impl1
+   [Autowire Struct Descriptor] Found type singleton registered SD github.com/alibaba/ioc-golang/example/debug/cmd/service2.Impl1
    [Autowire Type] Found registered autowire type grpc
-   [Autowire Struct Descriptor] Found type grpc registered SD HelloServiceClient-HelloServiceClient
+   [Autowire Struct Descriptor] Found type grpc registered SD github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient
    [Debug] Debug server listening at :1999
    create conn target  localhost:8080
    App call grpc get: Hello laurence
@@ -93,73 +87,115 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
    ```bash
    % iocli list
-   App
-   App
-   [Run]
-   
-   HelloServiceClient
-   HelloServiceClient
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient
    [SayHello]
    
-   Service1
-   Impl1
+   github.com/alibaba/ioc-golang/example/debug/cmd/service1.Impl1
    [Hello]
    
-   Service2
-   Impl1
+   github.com/alibaba/ioc-golang/example/debug/cmd/service2.Impl1
    [Hello]
    
-   Service2
-   Impl2
+   github.com/alibaba/ioc-golang/example/debug/cmd/service2.Impl2
    [Hello]
    
-   Struct1
-   Struct1
+   github.com/alibaba/ioc-golang/example/debug/cmd/struct1.Struct1
    [Hello]
+   
+   main.App
+   [Run]
    ```
 
 4. 监听 gRPC Client 的所有流量，每隔 5s 会打印出相关的请求、返回值信息。
 
    ```bash
-   % iocli watch HelloServiceClient HelloServiceClient SayHello
+   % iocli watch github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient  SayHello
+   
    ========== On Call ==========
-   HelloServiceClient.(HelloServiceClient).SayHello()
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
    Param 1: (*context.emptyCtx)(0xc0000280e0)(context.Background)
    
-   Param 2: (*api.HelloRequest)(0xc000298640)(name:"laurence")
+   Param 2: (*api.HelloRequest)(0xc000260280)(name:"laurence")
    
    Param 3: ([]grpc.CallOption) (len=2 cap=2) {
-    (grpc.MaxRecvMsgSizeCallOption) {
-     MaxRecvMsgSize: (int) 1024
-    },
-    (grpc.MaxRecvMsgSizeCallOption) {
-     MaxRecvMsgSize: (int) 1024
-    }
+   (grpc.MaxRecvMsgSizeCallOption) {
+   MaxRecvMsgSize: (int) 1024
+   },
+   (grpc.MaxRecvMsgSizeCallOption) {
+   MaxRecvMsgSize: (int) 1024
+   }
    }
    
    
    ========== On Response ==========
-   HelloServiceClient.(HelloServiceClient).SayHello()
-   Response 1: (*api.HelloResponse)(0xc000298740)(reply:"Hello laurence")
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Response 1: (*api.HelloResponse)(0xc000260380)(reply:"Hello laurence")
    
    Response 2: (interface {}) <nil>
    
    
    ========== On Call ==========
-   HelloServiceClient.(HelloServiceClient).SayHello()
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
    Param 1: (*context.emptyCtx)(0xc0000280e0)(context.Background)
    
-   Param 2: (*api.HelloRequest)(0xc000298900)(name:"laurence_service1_impl1")
+   Param 2: (*api.HelloRequest)(0xc0003988c0)(name:"laurence_service1_impl1")
    
    Param 3: ([]grpc.CallOption) <nil>
    
    
    ========== On Response ==========
-   HelloServiceClient.(HelloServiceClient).SayHello()
-   Response 1: (*api.HelloResponse)(0xc0002989c0)(reply:"Hello laurence_service1_impl1")
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Response 1: (*api.HelloResponse)(0xc000398980)(reply:"Hello laurence_service1_impl1")
    
    Response 2: (interface {}) <nil>
    
+   
+   ========== On Call ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Param 1: (*context.emptyCtx)(0xc0000280e0)(context.Background)
+   
+   Param 2: (*api.HelloRequest)(0xc000260480)(name:"laurence_service2_impl1")
+   
+   Param 3: ([]grpc.CallOption) <nil>
+   
+   
+   ========== On Response ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Response 1: (*api.HelloResponse)(0xc000260540)(reply:"Hello laurence_service2_impl1")
+   
+   Response 2: (interface {}) <nil>
+   
+   
+   ========== On Call ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Param 1: (*context.emptyCtx)(0xc0000280e0)(context.Background)
+   
+   Param 2: (*api.HelloRequest)(0xc00041c200)(name:"laurence_service2_impl2")
+   
+   Param 3: ([]grpc.CallOption) <nil>
+   
+   
+   ========== On Response ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Response 1: (*api.HelloResponse)(0xc00041c2c0)(reply:"Hello laurence_service2_impl2")
+   
+   Response 2: (interface {}) <nil>
+   
+   
+   ========== On Call ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Param 1: (*context.emptyCtx)(0xc0000280e0)(context.Background)
+   
+   Param 2: (*api.HelloRequest)(0xc000260700)(name:"laurence_service1_impl1")
+   
+   Param 3: ([]grpc.CallOption) <nil>
+   
+   
+   ========== On Response ==========
+   github.com/alibaba/ioc-golang/example/debug/api.HelloServiceClient.SayHello()
+   Response 1: (*api.HelloResponse)(0xc0002607c0)(reply:"Hello laurence_service1_impl1")
+   
+   Response 2: (interface {}) <nil>
    ...
    ```
 
@@ -167,4 +203,4 @@ debug 模式下，本框架基于 AOP 的思路，为每个注册在框架的结
 
 通过 Debug 能力，开发人员可以在测试环境内动态地监控流量，帮助排查问题。
 
-也可以基于 ioc-golang 提供的拦截器层，注册任何自己期望的流量拦截器，扩展调试、可观测、运维能力。
+也可以基于 ioc-golang 提供的拦截器层，注册任何自己期望的[调试拦截器](cn/docs/developer/develop_debug_interceptor/)，扩展调试、可观测、运维能力。

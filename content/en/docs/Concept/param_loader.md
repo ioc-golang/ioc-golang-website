@@ -6,9 +6,9 @@ weight: 4
 
 ### 概念
 
-参数加载器描述了依赖参数如何在对象构造之前被加载，包括但不限于从配置加载、从标签参数加载等等。
+参数加载器描述了依赖参数如何在对象构造之前被加载，包括但不限于从配置加载、从[标签](/cn/docs/reference/tag_format)参数加载等等。
 
-参数加载器作为 SD（文件描述符）的一部分，可以被结构提供方定制化，也可以使用自动装载模型提供的默认参数加载器。
+参数加载器作为 [SD(结构描述符)](/cn/docs/concept/sd)的一部分，可以被结构提供方定制化，也可以使用自动装载模型提供的默认参数加载器。
 
 ### 默认参数加载器
 
@@ -22,7 +22,6 @@ weight: 4
   Load support load struct described like:
   ```go
   normal.RegisterStructDescriptor(&autowire.StructDescriptor{
-  		Interface: new(Redis),
   		Factory:   func() interface{}{
   			return &Impl{}
   		},
@@ -44,18 +43,16 @@ weight: 4
   ```
   with
   Autowire type 'normal'
-  InterfaceName 'Redis'
   StructName 'Impl'
   Field:
-  	MyRedis Redis `normal:"Impl, redis-1"`
+  	MyRedis Redis `normal:"github.com/alibaba/ioc-golang/extension/normal/redis.Impl, redis-1"`
   
   from:
   
   ```yaml
   extension:
     normal:
-      Redis:
-        Impl:
+      github.com/alibaba/ioc-golang/extension/normal/redis.Impl:
           redis-1:
             param:
               address: 127.0.0.1
@@ -78,7 +75,7 @@ weight: 4
   from field:
   
   ```go
-  NormalRedis  normalRedis.Redis  `normal:"Impl,address=127.0.0.1&password=xxx&db=0"`
+  NormalRedis  normalRedis.Redis  `normal:"github.com/alibaba/ioc-golang/extension/normal/redis.Impl,address=127.0.0.1&password=xxx&db=0"`
   ```
   ````
 
@@ -88,7 +85,6 @@ weight: 4
   Load support load struct described like:
   ```go
   normal.RegisterStructDescriptor(&autowire.StructDescriptor{
-  		Interface: new(Redis),
   		Factory:   func() interface{}{
   			return &Impl{}
   		},
@@ -109,7 +105,6 @@ weight: 4
   ```
   with
   Autowire type 'normal'
-  InterfaceName 'Redis'
   StructName 'Impl'
   
   from:
@@ -117,8 +112,7 @@ weight: 4
   ```yaml
   autowire:
     normal:
-      Redis:
-        Impl:
+        github.com/alibaba/ioc-golang/extension/normal/redis.Impl:
           param:
             address: 127.0.0.1
             password: xxx

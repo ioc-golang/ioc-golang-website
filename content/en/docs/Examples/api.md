@@ -62,7 +62,7 @@ import(
 
 func (a *App) Run() {
   // 通过 normal 提供的全局 API，传递结构描述 ID 和配置结构，创建多例对象
-	normalRedis, err := normal.GetImpl("Redis-Impl", &redis.Config{
+	normalRedis, err := normal.GetImpl("github.com/alibaba/ioc-golang/extension/normal/redis.Impl", &redis.Config{
 		Address: "localhost:6379",
 		DB:      "0",
 	})
@@ -79,7 +79,7 @@ func main() {
 		panic(err)
 	}
   // 通过 singleton 提供的全局 API，传递结构描述 ID 获取单例对象
-	appInterface, err := singleton.GetImpl("App-App")
+	appInterface, err := singleton.GetImpl("main.App")
 	if err != nil {
 		panic(err)
 	}
@@ -114,9 +114,9 @@ The load procedure is continue
 [Debug] Debug mod is not enabled
 [Boot] Start to load autowire
 [Autowire Type] Found registered autowire type normal
-[Autowire Struct Descriptor] Found type normal registered SD Redis-Impl
+[Autowire Struct Descriptor] Found type normal registered SD github.com/alibaba/ioc-golang/extension/normal/redis.Impl
 [Autowire Type] Found registered autowire type singleton
-[Autowire Struct Descriptor] Found type singleton registered SD App-App
+[Autowire Struct Descriptor] Found type singleton registered SD main.App
 get val =  db0
 ```
 

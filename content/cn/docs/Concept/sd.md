@@ -51,7 +51,6 @@ Config 结构即为 Impl 结构的“参数”。其包含了产生 Impl 结构�
 
 ```go
 type StructDescriptor struct {
-	Interface     interface{}
 	Factory       func() interface{} 
 	ParamFactory  func() interface{}
 	ParamLoader   ParamLoader
@@ -62,19 +61,6 @@ type StructDescriptor struct {
 }
 ```
 
-- Interface 【必要】
-
-  结构实现的接口指针
-
-  ```go
-  new (MyInterface)
-  ```
-
-  如果结构没有实现任何接口，则使用结构指针。
-
-  ```go
-  &Impl{}
-  ```
 
 - Factory【必要】
 
@@ -130,13 +116,12 @@ type StructDescriptor struct {
 
 - 定义
 
+结构描述ID定义为："$(包名).$(结构名)"
+
 结构描述 ID （Struct Description Identification) 在本文档和项目中多处被缩写为 SDID。
 
-SDID 是一类“自动装载模型“内唯一的，用于索引结构的键，类型为字符串。
+SDID 是唯一的，用于索引结构的键，类型为字符串。
 
-如果一个类实现了接口，SDID为："$(接口名)-$(结构名)“
-
-如果一个类没有实现任何接口，SDID为：“"$(结构名)-$(结构名)“
 
 - 使用
 

@@ -1,6 +1,6 @@
 ---
-title: "配置注入"
-linkTitle: "配置注入"
+title: "GORM 客户端注入"
+linkTitle: "GORM 客户端注入"
 date: 2017-01-05
 weight: 3
 ---
@@ -30,7 +30,7 @@ import(
 // +ioc:autowire:type=singleton
 
 type App struct {
-	MyDataTable normalMysql.Mysql `normal:"Impl,my-mysql,mydata"`
+	MyDataTable normalMysql.Mysql `normal:"github.com/alibaba/ioc-golang/extension/normal.Impl,my-mysql,mydata"`
 }
 ```
 
@@ -40,22 +40,21 @@ type App struct {
 
 - 标签
 
-  开发人员可以为 normalMysql.Mysql 类型的字段增加 `normal:"Impl,$(configKey),$(tableName)" `标签。从而注入指定数据库的指定表 sdk。
+  开发人员可以为 normalMysql.Mysql 类型的字段增加 `normal:"github.com/alibaba/ioc-golang/extension/normal.Impl,$(configKey),$(tableName)" `标签。从而注入指定数据库的指定表 sdk。
 
-  例子中的 `normal:"Impl,my-mysql,mydata"` 的意义为，将配置文件内 `autowire.normal.Mysql.Impl,my-mysql.param`定义的值作为参数。
+  例子中的 `normal:"github.com/alibaba/ioc-golang/extension/normal.Impl,my-mysql,mydata"` 的意义为，将配置文件内 `autowire.normal.<github.com/alibaba/ioc-golang/extension/normal/mysql.Impl>.my-mysql.param`定义的值作为参数。
 
   ```yaml
   autowire:
     normal:
-      Mysql:
-        Impl:
-          my-mysql:
-            param:
-              host: "127.0.0.1"
-              port: 3306
-              username: "root"
-              password: "root"
-              dbname: "test"
+      github.com/alibaba/ioc-golang/extension/normal/mysql.Impl:
+        my-mysql:
+          param:
+            host: "127.0.0.1"
+            port: 3306
+            username: "root"
+            password: "root"
+            dbname: "test"
   ```
 
   例子会建立一个位于127.0.0.1:3306 的数据库连接，用户名为root、密码为 root、数据库名为test、表名为mydata。

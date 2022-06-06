@@ -54,6 +54,7 @@ sudo iocli gen
 // +ioc:autowire:paramType=Config
 // +ioc:autowire:constructFunc=New
 // +ioc:autowire:baseType=true
+// +ioc:autowire:alias=myAppAliasName
 ```
 
 - ioc:autowire
@@ -214,6 +215,8 @@ sudo iocli gen
   go 基础类型不可直接通过&在构造时取地址，因此我们针对基础类型单独设计了该注解。在 http://github.com/alibaba/ioc-golang/extension/tree/master/config 配置扩展中被使用较多。
 
 
+- ioc:autowire:alias=MyAppAliasName （非必填）
 
+  该类型的别名，可在标签、API获取、配置中，通过该别名替代掉较长的类型全名来指定结构。
 
 

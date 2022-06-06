@@ -22,7 +22,6 @@ weight: 4
   Load support load struct described like:
   ```go
   normal.RegisterStructDescriptor(&autowire.StructDescriptor{
-  		Interface: new(Redis),
   		Factory:   func() interface{}{
   			return &Impl{}
   		},
@@ -44,18 +43,16 @@ weight: 4
   ```
   with
   Autowire type 'normal'
-  InterfaceName 'Redis'
   StructName 'Impl'
   Field:
-  	MyRedis Redis `normal:"Impl, redis-1"`
+  	MyRedis Redis `normal:"github.com/alibaba/ioc-golang/extension/normal/redis.Impl, redis-1"`
   
   from:
   
   ```yaml
   extension:
     normal:
-      Redis:
-        Impl:
+      github.com/alibaba/ioc-golang/extension/normal/redis.Impl:
           redis-1:
             param:
               address: 127.0.0.1
@@ -78,7 +75,7 @@ weight: 4
   from field:
   
   ```go
-  NormalRedis  normalRedis.Redis  `normal:"Impl,address=127.0.0.1&password=xxx&db=0"`
+  NormalRedis  normalRedis.Redis  `normal:"github.com/alibaba/ioc-golang/extension/normal/redis.Impl,address=127.0.0.1&password=xxx&db=0"`
   ```
   ````
 
@@ -88,7 +85,6 @@ weight: 4
   Load support load struct described like:
   ```go
   normal.RegisterStructDescriptor(&autowire.StructDescriptor{
-  		Interface: new(Redis),
   		Factory:   func() interface{}{
   			return &Impl{}
   		},
@@ -109,7 +105,6 @@ weight: 4
   ```
   with
   Autowire type 'normal'
-  InterfaceName 'Redis'
   StructName 'Impl'
   
   from:
@@ -117,8 +112,7 @@ weight: 4
   ```yaml
   autowire:
     normal:
-      Redis:
-        Impl:
+        github.com/alibaba/ioc-golang/extension/normal/redis.Impl:
           param:
             address: 127.0.0.1
             password: xxx

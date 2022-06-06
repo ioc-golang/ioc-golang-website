@@ -6,9 +6,9 @@ weight: 3
 
 ### 概念
 
-结构描述符用于描述一个开发者定义的结构，其包含了对象生命周期的全部信息，例如结构类型是什么，实现了哪些接口，如何被构造等等。
+[结构描述符](/cn/docs/concept/sd/#结构描述符-struct-descriptor)(Struct Descriptor, SD)用于描述一个被开发者定义的结构，包含对象生命周期的全部信息，例如结构类型是什么，实现了哪些接口，如何被构造等等。
 
-结构描述符可以通过注解的方式使用工具[自动生成](/cn/docs/reference/iocli/#结构注解)。但还是推荐开发人员了解本框架定义的结构生命周期和结构描述信息，以便更清晰地开发应用。
+SD可以通过[注解](/cn/docs/concept/annotation)的方式使用工具[自动生成](/cn/docs/reference/iocli/#结构注解与sdcndocsconceptsd代码生成)。但还是推荐开发人员了解本框架定义的结构生命周期和结构描述信息，以便更清晰地开发应用。
 
 ### 对象生命周期
 
@@ -51,7 +51,6 @@ Config 结构即为 Impl 结构的“参数”。其包含了产生 Impl 结构�
 
 ```go
 type StructDescriptor struct {
-	Interface     interface{}
 	Factory       func() interface{} 
 	ParamFactory  func() interface{}
 	ParamLoader   ParamLoader
@@ -62,19 +61,6 @@ type StructDescriptor struct {
 }
 ```
 
-- Interface 【必要】
-
-  结构实现的接口指针
-
-  ```go
-  new (MyInterface)
-  ```
-
-  如果结构没有实现任何接口，则使用结构指针。
-
-  ```go
-  &Impl{}
-  ```
 
 - Factory【必要】
 
@@ -130,13 +116,12 @@ type StructDescriptor struct {
 
 - 定义
 
+结构描述ID定义为："$(包名).$(结构名)"
+
 结构描述 ID （Struct Description Identification) 在本文档和项目中多处被缩写为 SDID。
 
-SDID 是一类“自动装载模型“内唯一的，用于索引结构的键，类型为字符串。
+SDID 是唯一的，用于索引结构的键，类型为字符串。
 
-如果一个类实现了接口，SDID为："$(接口名)-$(结构名)“
-
-如果一个类没有实现任何接口，SDID为：“"$(结构名)-$(结构名)“
 
 - 使用
 
