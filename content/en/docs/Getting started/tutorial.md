@@ -32,7 +32,7 @@ import (
 type App struct {
 	ServiceImpl1 Service `singleton:"ServiceImpl1"` // inject Service 's ServiceImpl1 implementation
 	ServiceImpl2 Service `singleton:"ServiceImpl2"` // inject Service 's ServiceImpl2 implementation
-	ServiceStruct *ServiceStruct `singleton:"ServiceStruct"` // inject ServiceStruct struct pointer
+	ServiceStruct *ServiceStruct `singleton:""` // inject ServiceStruct struct pointer
 }
 
 func (a*App) Run(){
@@ -48,7 +48,6 @@ type Service interface{
 
 // +ioc:autowire=true
 // +ioc:autowire:type=singleton
-// +ioc:autowire:interface=Service
 
 type ServiceImpl1 struct {
 
@@ -60,7 +59,6 @@ func (s *ServiceImpl1) Hello(){
 
 // +ioc:autowire=true
 // +ioc:autowire:type=singleton
-// +ioc:autowire:interface=Service
 
 type ServiceImpl2 struct {
 
@@ -87,9 +85,9 @@ func main(){
 		panic(err)
 	}
 
-	// App-App is the format of： '$(interfaceName)-$(implementationStructName)'
+	// main.App is the format of： '$(pkgName).$(structName)'
 	// We can get instance by ths id
-	appInterface, err := singleton.GetImpl("App-App")
+	appInterface, err := singleton.GetImpl("main.App")
 	if err != nil{
 		panic(err)
 	}
@@ -183,16 +181,59 @@ The load procedure is continue
 [Debug] Debug mod is not enabled
 [Boot] Start to load autowire
 [Autowire Type] Found registered autowire type singleton
-[Autowire Struct Descriptor] Found type singleton registered SD App-App
-[Autowire Struct Descriptor] Found type singleton registered SD Service-ServiceImpl1
-[Autowire Struct Descriptor] Found type singleton registered SD Service-ServiceImpl2
-[Autowire Struct Descriptor] Found type singleton registered SD ServiceStruct-ServiceStruct
+[Autowire Struct Descriptor] Found type singleton registered SD main.App
+[Autowire Struct Descriptor] Found type singleton registered SD main.ServiceImpl1
+[Autowire Struct Descriptor] Found type singleton registered SD main.ServiceImpl2
+[Autowire Struct Descriptor] Found type singleton registered SD main.ServiceStruct
 This is ServiceImpl1, hello world
 This is ServiceImpl2, hello world
 This is ServiceStruct, hello world
 ```
 
 It shows that the injection is successful and the program runs normally.
+
+**Run with debug mode**
+
+`GOARCH=amd64 go run -gcflags="-N -l" -tags iocdebug .`
+
+You can see log contains
+
+```bash
+[Debug] Debug server listening at :1999
+```
+
+list all struct and methods
+
+```bash
+% iocli list
+main.App
+[Run]
+
+main.ServiceImpl1
+[Hello]
+
+main.ServiceImpl2
+[Hello]
+
+main.ServiceStruct
+[GetString]
+```
+
+list all real-time params and return values. Take GetString method as an example, it is called every 3s.
+
+```bash
+% iocli watch main.ServiceStruct GetString
+
+========== On Call ==========
+main.ServiceStruct.GetString()
+Param 1: (string) (len=8) "laurence"
+
+
+========== On Response ==========
+main.ServiceStruct.GetString()
+Response 1: (string) (len=14) "Hello laurence"
+...
+```
 
 ### Annotation Analysis
 
@@ -202,9 +243,6 @@ The code generation tool recognizes objects marked with the +ioc:autowire=true a
 
 // +ioc:autowire:type=singleton
 The marker injection model is the singleton singleton model, as well as the normal multi-instance model, the config configuration model, the grpc grpc client model and other extensions.
-
-// +ioc:autowire:interface=Service
-Markers implement the interface Service and can be injected into objects of type Service .
 ````
 
 ###  More
