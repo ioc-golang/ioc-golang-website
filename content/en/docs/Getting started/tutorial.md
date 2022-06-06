@@ -30,8 +30,8 @@ import (
 // +ioc:autowire:type=singleton
 
 type App struct {
-	ServiceImpl1 Service `singleton:"ServiceImpl1"` // inject Service 's ServiceImpl1 implementation
-	ServiceImpl2 Service `singleton:"ServiceImpl2"` // inject Service 's ServiceImpl2 implementation
+	ServiceImpl1 Service `singleton:"main.ServiceImpl1"` // inject Service 's ServiceImpl1 implementation
+	ServiceImpl2 Service `singleton:"main.ServiceImpl2"` // inject Service 's ServiceImpl2 implementation
 	ServiceStruct *ServiceStruct `singleton:""` // inject ServiceStruct struct pointer
 }
 
