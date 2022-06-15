@@ -243,11 +243,11 @@ The marker injection model is the singleton singleton model, as well as the norm
 
 ###  More
 
-More code generation annotations can be viewed at [iocli](https://github.com/alibaba/IOC-Golang/tree/master/iocli).
+More code generation annotations can be viewed at [iocli](https://github.com/alibaba/IOC-golang/tree/master/iocli).
 
-You can go to [ioc-golang-example](https://github.com/alibaba/IOC-Golang/tree/master/example) for more examples and advanced usage.
+You can go to [ioc-golang-example](https://github.com/alibaba/IOC-golang/tree/master/example) for more examples and advanced usage.
 
 ### License
 
-IOC-Golang developed by Alibaba and licensed under the Apache License (Version 2.0).
+IOC-golang developed by Alibaba and licensed under the Apache License (Version 2.0).
 See the NOTICE file for more information.

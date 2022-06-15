@@ -3,7 +3,7 @@ title: "项目结构"
 date: 2017-01-05
 weight: 1
 description: >
-  IOC-Golang 框架项目结构
+  IOC-golang 框架项目结构
 ---
 
 - **autowire：** 提供单例模型、多例模型两种基本注入模型

@@ -3,7 +3,7 @@ title: "Features"
 date: 2017-01-05
 weight: 4
 description: >
-  IOC-Golang Features
+  IOC-golang Features
 ---
 
 - Dependency Injection
